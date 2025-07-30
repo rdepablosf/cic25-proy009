@@ -21,6 +21,7 @@ public class ArbolService {
     @Autowired
     private ArbolRepository arbolRepository;
 
+    // create
     public Arbol create(Arbol arbol) {
         LOGGER.info("se está creando el árbol: {}", arbol);
 
@@ -31,9 +32,17 @@ public class ArbolService {
         return arbolRepository.save(arbol);
     }
 
+    // read
     public List<Arbol> findAll() {
         LOGGER.info("se están leyendo todos los árboles");
         return arbolRepository.findAll();
     }
-    
+
+    // update
+
+    // delete
+    public void delete(Long id) {
+        LOGGER.info("Se está eliminando el árbol con id {}", id);
+        arbolRepository.deleteById(id);
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import es.cic.curso25.proy009.exception.ArbolNotFoundException;
 import es.cic.curso25.proy009.model.Arbol;
 import es.cic.curso25.proy009.model.Rama;
 import es.cic.curso25.proy009.repository.ArbolRepository;
@@ -17,7 +18,7 @@ import es.cic.curso25.proy009.repository.ArbolRepository;
 public class ArbolService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArbolService.class);
-    
+
     @Autowired
     private ArbolRepository arbolRepository;
 
@@ -39,6 +40,20 @@ public class ArbolService {
     }
 
     // update
+    public Arbol update(Long id, Arbol arbolActualizado) {
+        LOGGER.info("Se está actualizando el árbol con id {}", id);
+        Arbol arbolExistente = arbolRepository.findById(id).orElseThrow(() -> new ArbolNotFoundException(id));
+        arbolExistente.setEspecie(arbolActualizado.getEspecie());
+        arbolExistente.setAltura(arbolActualizado.getAltura());
+
+        arbolExistente.getRamas().clear();
+        for (Rama rama : arbolActualizado.getRamas()) {
+            rama.setArbol(arbolExistente);
+            arbolExistente.getRamas().add(rama);
+        }
+
+        return arbolRepository.save(arbolExistente);
+    }
 
     // delete
     public void delete(Long id) {

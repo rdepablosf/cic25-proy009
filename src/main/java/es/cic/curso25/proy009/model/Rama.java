@@ -12,25 +12,17 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "ramas")
 public class Rama {
-    @ManyToOne
-    @JoinColumn(name = "arbol_id")
-    private Arbol arbol;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rama")
     private Long id;
 
-    @Column(name = "altura")
-    private String altura;
+    @Column(name = "longitud")
+    private String longitud;
 
-    public Arbol getArbol() {
-        return arbol;
-    }
-
-    public void setArbol(Arbol arbol) {
-        this.arbol = arbol;
-    }
+    @ManyToOne
+    @JoinColumn(name = "arbol_id")
+    private Arbol arbol;
 
     public Long getId() {
         return id;
@@ -40,12 +32,50 @@ public class Rama {
         this.id = id;
     }
 
-    public String getAltura() {
-        return altura;
+    public String getlongitud() {
+        return longitud;
     }
 
-    public void setAltura(String altura) {
-        this.altura = altura;
+    public void setlongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public Arbol getArbol() {
+        return arbol;
+    }
+
+    public void setArbol(Arbol arbol) {
+        this.arbol = arbol;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Rama other = (Rama) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Rama [id=" + id + ", longitud=" + longitud + ", arbol=" + arbol + "]";
     }
 
 }
